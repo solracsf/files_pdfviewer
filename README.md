@@ -14,7 +14,7 @@ You can view PDF files as well as Adobe Illustrator files (.ai)
 
 ### Enable Javascript execution in PDF files
 
-To allow Javascript embedded in PDF-files to be executed inside the PDF-viewer inside your browser, enable it with:
+To allow Javascript embedded in PDF-files to be executed inside the PDF-viewer inside your browser, turn on "Enable PDF scripting" under Administration settings, or from the command line:
 
 `php occ config:app:set files_pdfviewer enable_scripting --value=yes`
 
@@ -39,7 +39,7 @@ You run all tests by using `make test`.
 
 ### 📦 Update pdf.js
 
-When a new release of pdf.js is available on https://github.com/mozilla/pdf.js/releases, update the version number on https://github.com/nextcloud/files_pdfviewer/blob/master/pdfjs-get.js#L8 and compile the app again.
+When a new release of pdf.js is available on https://github.com/mozilla/pdf.js/releases, update the `pdfjs-dist` version in `package.json` and compile the app again. `pdfjs-get.js` reads that version from `package-lock.json` and downloads the matching release. `templates/viewer.php` is a copy of the pdf.js `viewer.html` and has to be updated by hand whenever that file changes.
 
 
 ## ♥ How to create a pull request
