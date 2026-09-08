@@ -8,6 +8,7 @@
 
 namespace OCA\Files_PDFViewer\Controller;
 
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OCA\Files_PDFViewer\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -34,23 +35,29 @@ class DisplayController extends Controller {
 	/** @var ServerVersion */
 	private $serverVersion;
 
+	/** @var ContentSecurityPolicyNonceManager */
+	private $nonceManager;
+
 	/**
 	 * @param IRequest $request
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
 	 * @param IConfig $config
 	 * @param ServerVersion $serverVersion
+	 * @param ContentSecurityPolicyNonceManager $nonceManager
 	 */
 	public function __construct(IRequest $request,
 		IURLGenerator $urlGenerator,
 		IAppManager $appManager,
 		IConfig $config,
-		ServerVersion $serverVersion) {
+		ServerVersion $serverVersion,
+		ContentSecurityPolicyNonceManager $nonceManager) {
 		parent::__construct(Application::APP_ID, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->appManager = $appManager;
 		$this->config = $config;
 		$this->serverVersion = $serverVersion;
+		$this->nonceManager = $nonceManager;
 	}
 
 	/**
@@ -64,6 +71,7 @@ class DisplayController extends Controller {
 			'urlGenerator' => $this->urlGenerator,
 			'minmode' => $minmode,
 			'version' => $this->getVersionHash(),
+			'nonce' => $this->nonceManager->getNonce(),
 			'enableScripting' => $this->config->getAppValue(Application::APP_ID, 'enable_scripting', 'no') === 'yes',
 		];
 

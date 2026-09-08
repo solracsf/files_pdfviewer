@@ -9,12 +9,10 @@
 /** @var array $_ */
 /** @var OCP\IURLGenerator $urlGenerator */
 
-use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-
 $urlGenerator = $_['urlGenerator'];
 $version = $_['version'];
 $enableScripting = $_['enableScripting'];
-$cspNonceManager = \OCP\Server::get(ContentSecurityPolicyNonceManager::class);
+$nonce = $_['nonce'];
 ?>
 
 <!DOCTYPE html>
@@ -62,9 +60,9 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     <!-- This snippet is used in production (included from viewer.html) -->
     <link rel="resource" type="application/l10n" href="<?php p($urlGenerator->linkTo('files_pdfviewer', 'js/pdfjs/web/locale/locale.json')) ?>?v=<?php p($version) ?>"/>
-    <script nonce="<?php p($cspNonceManager->getNonce()) ?>" src="<?php p($urlGenerator->linkTo('files_pdfviewer', 'js/pdfjs/build/pdf.mjs')) ?>?v=<?php p($version) ?>" type="module"></script>
-    <script nonce="<?php p($cspNonceManager->getNonce()) ?>" src="<?php p($urlGenerator->linkTo('files_pdfviewer', 'js/pdfjs/web/viewer.mjs')) ?>?v=<?php p($version) ?>" type="module"></script>
-    <script nonce="<?php p($cspNonceManager->getNonce()) ?>" src="<?php p($urlGenerator->linkTo('files_pdfviewer', 'js/files_pdfviewer-workersrc.js')) ?>?v=<?php p($version) ?>"></script>
+    <script nonce="<?php p($nonce) ?>" src="<?php p($urlGenerator->linkTo('files_pdfviewer', 'js/pdfjs/build/pdf.mjs')) ?>?v=<?php p($version) ?>" type="module"></script>
+    <script nonce="<?php p($nonce) ?>" src="<?php p($urlGenerator->linkTo('files_pdfviewer', 'js/pdfjs/web/viewer.mjs')) ?>?v=<?php p($version) ?>" type="module"></script>
+    <script nonce="<?php p($nonce) ?>" src="<?php p($urlGenerator->linkTo('files_pdfviewer', 'js/files_pdfviewer-workersrc.js')) ?>?v=<?php p($version) ?>"></script>
   </head>
 
   <body tabindex="0">

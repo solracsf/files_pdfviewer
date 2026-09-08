@@ -24,6 +24,7 @@
 		<directory name="vendor-bin/psalm/vendor/nextcloud" />
 	</extraFiles>
 	<stubs>
+		<file name="tests/stubs/oc_security_csp_contentsecuritypolicynoncemanager.php" />
 		<file name="tests/stubs/oca_viewer_event_loadviewer.php" />
 	</stubs>
 </psalm>

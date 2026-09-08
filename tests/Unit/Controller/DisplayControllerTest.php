@@ -8,6 +8,7 @@
 
 namespace OCA\Files_PDFViewer\Tests\Unit\Controller;
 
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OCA\Files_PDFViewer\AppInfo\Application;
 use OCA\Files_PDFViewer\Controller\DisplayController;
 use OCP\App\IAppManager;
@@ -35,6 +36,9 @@ class DisplayControllerTest extends TestCase {
 	/** @var ServerVersion */
 	private $serverVersion;
 
+	/** @var ContentSecurityPolicyNonceManager */
+	private $nonceManager;
+
 	/** @var DisplayController */
 	private $controller;
 
@@ -44,12 +48,15 @@ class DisplayControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->nonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
+		$this->nonceManager->method('getNonce')->willReturn('the-nonce');
 		$this->controller = new DisplayController(
 			$this->request,
 			$this->urlGenerator,
 			$this->appManager,
 			$this->config,
 			$this->serverVersion,
+			$this->nonceManager,
 		);
 
 		parent::setUp();
@@ -71,6 +78,7 @@ class DisplayControllerTest extends TestCase {
 			// substr(md5('1.0.0-34.0.3.2'), 0, 8)
 			'version' => 'd77714da',
 			'enableScripting' => false,
+			'nonce' => 'the-nonce',
 		];
 		$expectedResponse = new TemplateResponse(Application::APP_ID, 'viewer', $params, TemplateResponse::RENDER_AS_BLANK);
 		$policy = new ContentSecurityPolicy();
