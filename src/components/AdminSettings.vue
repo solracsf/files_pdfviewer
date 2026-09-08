@@ -21,9 +21,12 @@
 <script>
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import { NcCheckboxRadioSwitch, NcNoteCard, NcSettingsSection } from '@nextcloud/vue'
 import logger from '../services/logger.js'
+
+import '@nextcloud/password-confirmation/style.css'
 
 export default {
 	name: 'AdminSettings',
@@ -61,6 +64,15 @@ export default {
 
 		async setEnableScripting(value) {
 			this.loading = true
+
+			try {
+				await confirmPassword()
+			} catch {
+				// The dialog was dismissed, so the setting stays as it is.
+				this.loading = false
+				return
+			}
+
 			try {
 				await axios.put(generateOcsUrl('/apps/files_pdfviewer/api/v1/settings/enable-scripting'), {
 					enableScripting: value,

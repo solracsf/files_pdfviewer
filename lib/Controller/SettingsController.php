@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_PDFViewer\Controller;
 
 use OCA\Files_PDFViewer\AppInfo\Application;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IConfig;
@@ -42,6 +43,7 @@ class SettingsController extends OCSController {
 	/**
 	 * Update PDF enable scripting setting
 	 */
+	#[PasswordConfirmationRequired]
 	public function setEnableScripting(bool $enableScripting): DataResponse {
 		$this->config->setAppValue(
 			Application::APP_ID,
