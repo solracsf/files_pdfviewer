@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Keep LF in the repository and in the working tree, so that eslint does not
+# fail with "linebreak-style" on Windows checkouts using core.autocrlf=true.
+* text=auto eol=lf
+
+# "text=auto" decides by looking for a NUL byte in the first 8k, which three
+# of the pdf.js CMaps do not have, so eol=lf would corrupt them.
+*.bcmap binary
+*.gif binary
+*.pdf binary
+*.pfb binary
+*.png binary
+*.ttf binary
