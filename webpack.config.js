@@ -10,7 +10,10 @@ const WebpackSPDXPlugin = require('./build-js/WebpackSPDXPlugin.js')
 const path = require('path')
 const { readdirSync } = require('fs')
 
-const l10nContent = readdirSync(path.resolve(__dirname, 'js', 'pdfjs', 'web', 'locale'))
+// Only the per-language directories, not the locale.json index next to them
+const l10nContent = readdirSync(path.resolve(__dirname, 'js', 'pdfjs', 'web', 'locale'), { withFileTypes: true })
+	.filter((entry) => entry.isDirectory())
+	.map((entry) => entry.name)
 
 webpackConfig.entry.workersrc = path.resolve(path.join('src', 'workersrc.js'))
 webpackConfig.entry.admin = path.resolve(path.join('src', 'admin.js'))
