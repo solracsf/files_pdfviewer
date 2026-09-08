@@ -8,10 +8,9 @@
 		ref="iframe"
 		:src="iframeSrc"
 		@load="onIFrameLoaded" />
-	<div v-else-if="!isRichDocumentsAvailable" id="emptycontent">
-		<div class="icon-error" />
-		<h3>{{ t('files_pdfviewer', 'To view a shared PDF file, the download needs to be allowed for this file share') }}</h3>
-	</div>
+	<NcEmptyContent
+		v-else-if="!isRichDocumentsAvailable"
+		:name="t('files_pdfviewer', 'To view a shared PDF file, the download needs to be allowed for this file share')" />
 </template>
 
 <script>
@@ -19,11 +18,17 @@ import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { getLanguage } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import logger from '../services/logger.js'
 import uploadPdfFile from '../services/uploadPdfFile.js'
 
 export default {
 	name: 'PDFView',
+
+	components: {
+		NcEmptyContent,
+	},
+
 	inheritAttrs: false,
 	props: {
 		// file source to fetch contents from
@@ -340,7 +345,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#emptycontent {
+.empty-content {
 	margin: 0;
 	padding: 10% 5%;
 	background-color: var(--color-main-background);
