@@ -11,15 +11,14 @@ namespace OCA\Files_PDFViewer\Settings;
 
 use OCA\Files_PDFViewer\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class AdminSettings implements ISettings {
+class AdminSettings implements IDelegatedSettings {
 
-	private IConfig $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IL10N $l10n,
+	) {
 	}
 
 	#[\Override]
@@ -29,11 +28,21 @@ class AdminSettings implements ISettings {
 
 	#[\Override]
 	public function getSection(): string {
-		return 'server';
+		return 'office';
 	}
 
 	#[\Override]
 	public function getPriority(): int {
 		return 50;
+	}
+
+	#[\Override]
+	public function getName(): ?string {
+		return $this->l10n->t('PDF viewer');
+	}
+
+	#[\Override]
+	public function getAuthorizedAppConfig(): array {
+		return [Application::APP_ID => ['/^enable_scripting$/']];
 	}
 }

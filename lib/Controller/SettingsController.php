@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OCA\Files_PDFViewer\Controller;
 
 use OCA\Files_PDFViewer\AppInfo\Application;
+use OCA\Files_PDFViewer\Settings\AdminSettings;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IConfig;
@@ -27,6 +29,7 @@ class SettingsController extends OCSController {
 	/**
 	 * Get current PDF viewer settings
 	 */
+	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function getSettings(): DataResponse {
 		$enableScripting = $this->config->getAppValue(
 			Application::APP_ID,
@@ -42,6 +45,7 @@ class SettingsController extends OCSController {
 	/**
 	 * Update PDF enable scripting setting
 	 */
+	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function setEnableScripting(bool $enableScripting): DataResponse {
 		$this->config->setAppValue(
 			Application::APP_ID,
