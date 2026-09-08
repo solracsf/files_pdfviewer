@@ -76,7 +76,6 @@ class DisplayControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$policy->addAllowedFontDomain('data:');
-		$policy->addAllowedImageDomain('*');
 		$policy->addAllowedScriptDomain('\'wasm-unsafe-eval\'');
 		$expectedResponse->setContentSecurityPolicy($policy);
 

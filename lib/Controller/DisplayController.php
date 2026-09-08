@@ -72,7 +72,6 @@ class DisplayController extends Controller {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$policy->addAllowedFontDomain('data:');
-		$policy->addAllowedImageDomain('*');
 		$policy->addAllowedScriptDomain('\'wasm-unsafe-eval\'');
 		$response->setContentSecurityPolicy($policy);
 
