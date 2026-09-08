@@ -55,10 +55,11 @@
 	content: '';
 	height: 12px;
 	width: 12px;
-	margin: -8px 0 0 -8px;
+	margin-block: -8px 0;
+	margin-inline: -8px 0;
 	position: absolute;
 	top: 50%;
-	left: 50%;
+	inset-inline-start: 50%;
 	border-radius: 100%;
 	-webkit-animation: rotate .8s infinite linear;
 	animation: rotate .8s infinite linear;
