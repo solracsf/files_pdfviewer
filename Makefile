@@ -81,6 +81,8 @@ appstore:
 	mkdir -p $(sign_dir)
 	tar cvzf $(appstore_package_name).tar.gz \
 	--exclude-vcs \
+	--exclude='compressed.tracemonkey-pldi-09.pdf' \
+	--exclude='viewer.html' \
 	$(project_directory)/appinfo \
 	$(project_directory)/css \
 	$(project_directory)/img \
