@@ -5,8 +5,6 @@ name: Check viewer
 on:
   pull_request:
     types: [opened, ready_for_review, reopened, synchronize]
-    paths:
-      - 'js/pdfjs/web/viewer.html'
 
 permissions:
   contents: read
@@ -21,10 +19,34 @@ jobs:
 
     if: github.event.pull_request.draft == false
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     steps:
-      - name: Check viewer
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # The check diffs against the merge base, which the default shallow
+          # clone does not contain.
+          fetch-depth: 0
+
+      - name: Check that "viewer.php" follows "viewer.html"
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          echo "Check viewer.php - viewer.html got updated so viewer.php needs an update" 
+          changed=$(git diff --name-only "$BASE_SHA...$HEAD_SHA")
+
+          if ! printf '%s\n' "$changed" | grep -qx 'js/pdfjs/web/viewer.html'; then
+            echo '"js/pdfjs/web/viewer.html" is unchanged, nothing to port.'
+            exit 0
+          fi
+
+          if printf '%s\n' "$changed" | grep -qx 'templates/viewer.php'; then
+            echo '"templates/viewer.php" was updated along with "viewer.html".'
+            exit 0
+          fi
+
+          echo '"js/pdfjs/web/viewer.html" changed but "templates/viewer.php" did not.'
+          echo 'Port the changes of the pdf.js viewer over to "templates/viewer.php".'
           exit 1
